@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <title>System | Login</title>
+</head>
+
+<body>
+
+  <div id="app" v-cloak>
+    <v-app>
+      <v-main>
+        <v-container>
+          @each(error in errors)
+          <v-row justify="center">
+            <v-alert type="error">{{error}}</v-alert>
+          </v-row>
+          @endeach
+          <v-row justify="center">
+            <v-col cols="12" sm="10" md="8" lg="6">
+              <v-card elevation="2">
+                <v-card-title>Login</v-card-title>
+                <v-card-text>
+                  <form ref="form" method="POST" action="/login">
+                    <v-text-field v-model="email" persistent-placeholder name="email" :error-messages="errorMessages"
+                      label="Email" type="email">
+                    </v-text-field>
+                    <v-text-field v-model="password" persistent-placeholder name="password"
+                      :error-messages="errorMessages" label="Password" type="password"></v-text-field>
+                  </form>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn text @click="resetForm">Reset</v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" text @click="submit">
+                    Submit
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-main>
+    </v-app>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      data: () => ({
+        email: "",
+        password: "",
+        formHasErrors: false,
+        errorMessages: '',
+      }),
+
+      computed: {
+        
+      },
+
+      watch: {
+        
+      },
+
+      created () {
+        
+      },
+
+      methods: {
+        resetForm () {
+          this.email = ""
+          this.password = ""
+        },
+        submit (event) {
+          this.$refs.form.submit()
+        },
+      },
+    })
+  </script>
+</body>
+
+</html>
