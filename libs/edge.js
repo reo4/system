@@ -11,6 +11,8 @@ const registerEdge = app => {
     return callback(null, rendered)
   })
 
+  app.set('views', join(__dirname, 'views'))
+
   app.set("view engine", "edge");
 }
 
