@@ -15,7 +15,7 @@ registerEdge(app)
 registerParsers(app)
 
 app.use('/assets', express.static(join(__dirname, 'assets')))
-// app.use(auth)
+app.use(auth)
 
 app.get('/', async (req, res) => {
 
