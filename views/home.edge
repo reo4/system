@@ -17,7 +17,7 @@
     <v-app>
       <v-main>
         <v-container>
-          <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
+          <v-data-table :search="search" :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
             <template v-slot:top>
               <v-toolbar flat>
                 <v-toolbar-title>Data</v-toolbar-title>
@@ -66,7 +66,7 @@
                       <v-btn color="blue darken-1" text @click="close">
                         Cancel
                       </v-btn>
-                      <v-btn color="blue darken-1" text @click="save">
+                      <v-btn color="blue darken-1" :loading="loading" text @click="save">
                         Save
                       </v-btn>
                     </v-card-actions>
@@ -88,6 +88,10 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
+              </v-toolbar>
+              <v-toolbar flat>
+                <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details>
+                </v-text-field>
               </v-toolbar>
             </template>
             <template v-slot:item.actions="{ item }">
@@ -130,6 +134,7 @@
           { text: 'Stock Status', value: 'stock_status'},
           { text: 'Actions', value: 'actions'},
         ],
+        search: '',
         desserts: [],
         editedIndex: -1,
         editedItem: {
@@ -230,12 +235,32 @@
         },
 
         save () {
-          if (this.editedIndex > -1) {
-            Object.assign(this.desserts[this.editedIndex], this.editedItem)
-          } else {
-            this.desserts.push(this.editedItem)
+          let requestData = []
+          for (const key in this.editedItem) {
+            requestData.push(this.editedItem[key])
           }
-          this.close()
+          if (this.editedIndex > -1) {
+            // edit
+            this.loading = true
+            axios
+            .put(`/product/${this.editedIndex + 2}`, {requestData})
+            .then(response => {
+              Object.assign(this.desserts[this.editedIndex], this.editedItem)
+              this.loading = false
+              this.close()
+            })
+          } 
+          else {
+            // insert
+            this.loading = true
+            axios
+              .post(`/product`, {requestData})
+              .then(response => {
+                this.desserts.push(this.editedItem)
+                this.loading = false
+                this.close()
+              })
+          }
         },
       },
     })

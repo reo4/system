@@ -34,30 +34,52 @@ app.get('/', async (req, res) => {
 
 })
 
-app.put('/product/:id', (req, res) => {
+app.post('/product', (req, res) => {
   authorize().then(async auth => {
     const sheets = google.sheets({ version: 'v4', auth });
-    const response = await sheets.spreadsheets.batchUpdate({
-      spreadsheetId: '16jJ9UVvFse3Teid6yKQU36zU9oyNfl7U_xhQQIHMwtE',
-      resource: {
-        "requests":
-          [
-            {
-              "updateSpreadsheetProperties": {
-                "properties": {
-                  "sheetId": 0,
-                  "dimension": "ROWS",
-                  "startIndex": rowIndex,
-                  "endIndex": rowIndex + 1
-                }
-              }
-            }
-          ]
-      }
-    })
-    if (response) {
-      res.send({ deleted: true })
+    try {
+      await sheets.spreadsheets.values.append({
+        spreadsheetId: '16jJ9UVvFse3Teid6yKQU36zU9oyNfl7U_xhQQIHMwtE',
+        range: `Products`,
+        valueInputOption: 'USER_ENTERED',
+        insertDataOption: 'INSERT_ROWS',
+        resource: {
+          majorDimension: "ROWS",
+          range: `Products`,
+          values: [req.body.requestData]
+        },
+      })
+      res.sendStatus(200)
+    } catch (error) {
+      console.log(error)
+      res.send(error)
     }
+
+  })
+})
+
+app.put('/product/:id', (req, res) => {
+  const index = req.params.id
+  const range = `Products!A${index}:G${index}`
+  authorize().then(async auth => {
+    const sheets = google.sheets({ version: 'v4', auth });
+    try {
+      await sheets.spreadsheets.values.update({
+        spreadsheetId: '16jJ9UVvFse3Teid6yKQU36zU9oyNfl7U_xhQQIHMwtE',
+        range,
+        valueInputOption: 'USER_ENTERED',
+        resource: {
+          majorDimension: "ROWS",
+          range,
+          values: [req.body.requestData]
+        },
+      })
+      res.sendStatus(200)
+    } catch (error) {
+      console.log(error)
+      res.send(error)
+    }
+
   })
 })
 
