@@ -54,9 +54,9 @@
                           <v-col cols="12" sm="6" md="4">
                             <v-text-field v-model="editedItem.order" label="On Order"></v-text-field>
                           </v-col>
-                          <v-col cols="12" sm="6" md="4">
+                          {{--  <v-col cols="12" sm="6" md="4">
                             <v-text-field v-model="editedItem.stock_status" label="Stock Status"></v-text-field>
-                          </v-col>
+                          </v-col>  --}}
                         </v-row>
                       </v-container>
                     </v-card-text>
@@ -235,6 +235,9 @@
         },
 
         save () {
+          this.editedItem.stock > 0 ?
+             this.editedItem.stock_status = "In Stock" : 
+             this.editedItem.stock_status = "Out of Stock" 
           let requestData = []
           for (const key in this.editedItem) {
             requestData.push(this.editedItem[key])
