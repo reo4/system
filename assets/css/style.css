@@ -1,3 +1,29 @@
 [v-cloak] {
   display: none;
 }
+
+.logo-bg img{
+  width: 100%;
+}
+
+/* table customization */
+
+table tr:nth-child(even) {
+  background: #ebebeb;
+}
+
+table thead tr th {
+  background-color: #ba0c0e;
+}
+
+table thead tr th {
+  color: white !important;
+}
+
+table thead tr th .v-select__slot label{
+  color: white !important;
+}
+
+table thead tr th .v-select__slot i{
+  color: white !important;
+}

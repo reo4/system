@@ -25,12 +25,19 @@
           @endeach
           <v-row justify="center">
             <v-col cols="12" sm="10" md="8" lg="6">
+              <div class="logo-bg">
+                <img src="/assets/img/logo.jfif" alt="">
+              </div>
+            </v-col>
+          </v-row>
+          <v-row justify="center">
+            <v-col cols="12" sm="10" md="8" lg="6">
               <v-card elevation="2">
                 <v-card-title>Login</v-card-title>
                 <v-card-text>
                   <form ref="form" method="POST" action="/login">
                     <v-text-field v-model="email" persistent-placeholder name="email" :error-messages="errorMessages"
-                      label="Email" type="email">
+                      label="Username" type="email">
                     </v-text-field>
                     <v-text-field v-model="password" persistent-placeholder name="password"
                       :error-messages="errorMessages" label="Password" type="password"></v-text-field>
@@ -63,18 +70,6 @@
         formHasErrors: false,
         errorMessages: '',
       }),
-
-      computed: {
-        
-      },
-
-      watch: {
-        
-      },
-
-      created () {
-        
-      },
 
       methods: {
         resetForm () {
